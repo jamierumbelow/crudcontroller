@@ -1,0 +1,21 @@
+{
+    "name": "jamierumbelow/crudcontroller",
+    "description": "An extensible, simple base CRUD controller for Laravel 5 applications",
+    "type": "library",
+    "require": {
+        "laravel/framework": "^5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Rumbelow\\": "Rumbelow/"
+        }
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jamie Rumbelow",
+            "email": "jamie@jamierumbelow.net"
+        }
+    ],
+    "minimum-stability": "dev"
+}
