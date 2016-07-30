@@ -17,13 +17,13 @@ use Illuminate\Http\Request;
  * grab the collection through an associated model instead of calling all() directly.
  *
  * @internal
- * @uses Rumbelow\Http\Controllers\CrudController
- * @used-by Rumbelow\Http\Controllers\CrudController
+ * @uses \Rumbelow\Http\Controllers\CrudController
+ * @used-by \Rumbelow\Http\Controllers\CrudController
  */
 trait Fetchers
 {
     /** @var bool If the fetcher fails, should it throw an exception, or just return NULL? */
-    protected $fetcherShouldThrowException = false;
+    protected $fetcherShouldThrowException = true;
 
     /**
      * The following methods are called on a CRUD-method basis. These are the recommended methods
@@ -44,7 +44,7 @@ trait Fetchers
      *
      * @var string $klass The class name to instantiate
      * @var int|null $id The ID of the instance to fetch
-     * @return Illuminate\Database\Eloquent\Model
+     * @return \Illuminate\Database\Eloquent\Model
      */
     protected function fetchInstance($klass, $id)
     {
@@ -55,7 +55,7 @@ trait Fetchers
      * Fetch a new instance
      *
      * @var string The class name to instantiate
-     * @return Illuminate\Database\Eloquent\Model
+     * @return \Illuminate\Database\Eloquent\Model
      */
     protected function fetchNewInstance($klass)
     {

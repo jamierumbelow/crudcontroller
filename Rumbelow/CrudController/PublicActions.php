@@ -16,8 +16,8 @@ use Illuminate\Http\Request;
  * PublicActions are the core of the CRUD functionality; the methods accessed directly through the router.
  *
  * @internal
- * @uses Rumbelow\Http\Controllers\CrudController
- * @used-by Rumbelow\Http\Controllers\CrudController
+ * @uses \Rumbelow\Http\Controllers\CrudController
+ * @used-by \Rumbelow\Http\Controllers\CrudController
  */
 trait PublicActions
 {
