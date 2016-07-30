@@ -31,13 +31,13 @@ trait Fetchers
      */
 
     protected function fetcherIndex(Request $request, $klass) { return $klass::all(); }
-    protected function fetcherShow(Request $request, $klass, $id) { return $this->fetchInstance($id); }
+    protected function fetcherShow(Request $request, $klass, $id) { return $this->fetchInstance($klass, $id); }
     protected function fetcherCreate(Request $request, $klass) { return $this->fetchNewInstance(); }
     protected function fetcherStore(Request $request, $klass) { return $this->fetchNewInstance(); }
-    protected function fetcherEdit(Request $request, $klass, $id) { return $this->fetchInstance($id); }
-    protected function fetcherUpdate(Request $request, $klass, $id) { return $this->fetchInstance($id); }
-    protected function fetcherConfirmDestroy(Request $request, $klass, $id) { return $this->fetchInstance($id); }
-    protected function fetcherDestroy(Request $request, $klass, $id) { return $this->fetchInstance($id); }
+    protected function fetcherEdit(Request $request, $klass, $id) { return $this->fetchInstance($klass, $id); }
+    protected function fetcherUpdate(Request $request, $klass, $id) { return $this->fetchInstance($klass, $id); }
+    protected function fetcherConfirmDestroy(Request $request, $klass, $id) { return $this->fetchInstance($klass, $id); }
+    protected function fetcherDestroy(Request $request, $klass, $id) { return $this->fetchInstance($klass, $id); }
 
     /**
      * Fetch an instance
