@@ -16,10 +16,14 @@ use Illuminate\Database\Eloquent\Model;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use Rumbelow\CrudController\Fetchers;
+
 use Input, Redirect, Response;
 
 abstract class CrudController extends Controller
 {
+    use Fetchers;
+
     public function index(Request $request)
     {
         $this->beforeAll($request);
@@ -250,42 +254,6 @@ abstract class CrudController extends Controller
     {
         return $request->has('_redirect') ? Redirect::to($request->get('_redirect')) : Redirect::route( $this->getRouteBase() . '.index' );
     }
-
-    /**
-     * @deprecated
-     */
-    protected function getNewInstance(Request $request)
-    {
-        $klass = $this->getClass();
-
-        return new $klass();
-    }
-
-    /**
-     * @deprecated
-     */
-    protected function fetchInstance($id = null)
-    {
-        $klass = $this->getClass();
-        $obj = $klass::findOrFail($id);
-
-        return $obj;
-    }
-
-    /**
-     * --------------------------------------------------------------------------------------------------------------
-     * Fetchers – return the model required for the action. Allows a degree of customisability
-     * at the 'let's talk to the model' layer.
-     */
-
-    protected function fetcherIndex(Request $request, $klass) { return $klass::all(); }
-    protected function fetcherShow(Request $request, $klass, $id) { return $this->fetchInstance($id); }
-    protected function fetcherCreate(Request $request, $klass) { return $this->getNewInstance($request); }
-    protected function fetcherStore(Request $request, $klass) { return new $klass; }
-    protected function fetcherEdit(Request $request, $klass, $id) { return $this->fetchInstance($id); }
-    protected function fetcherUpdate(Request $request, $klass, $id) { return $this->fetchInstance($id); }
-    protected function fetcherConfirmDestroy(Request $request, $klass, $id) { return $this->fetchInstance($id); }
-    protected function fetcherDestroy(Request $request, $klass, $id) { return $this->fetchInstance($id); }
 
     /**
      * --------------------------------------------------------------------------------------------------------------
