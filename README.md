@@ -64,9 +64,7 @@ You can also get the bleeding-edge version by pointing to this GitHub repository
 
 ```json
 "require": {
-    // ...
     "jamierumbelow/crudcontroller": "dev-master",
-    // ...
 },
 "repositories": [
     {
