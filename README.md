@@ -2,8 +2,9 @@
 
 [![Latest Version](https://img.shields.io/github/release/jamierumbelow/crudcontroller.svg)](https://github.com/jamierumbelow/crudcontroller/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE.md)
-[![Build Status](https://img.shields.io/travis/jamierumbelow/crudcontroller/master.svg)](https://travis-ci.org/jamierumbelow/crudcontroller)
+[![Build Status](https://img.shields.io/scrutinizer/build/g/jamierumbelow/crudcontroller.svg)](https://scrutinizer-ci.com/g/jamierumbelow/crudcontroller/build-status/master)
 [![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/jamierumbelow/crudcontroller.svg)](https://scrutinizer-ci.com/g/jamierumbelow/crudcontroller/code-structure)
+[![Code Quality](https://img.shields.io/scrutinizer/g/jamierumbelow/crudcontroller.svg)](https://scrutinizer-ci.com/g/jamierumbelow/crudcontroller/code-structure)
 [![Total Downloads](https://img.shields.io/packagist/dt/jamierumbelow/crudcontroller.svg)](https://packagist.org/packages/jamierumbelow/crudcontroller)
 
 **CrudController is developed thanks to the generous support of [Platform IQ](https://www.platformiq.com/).**
