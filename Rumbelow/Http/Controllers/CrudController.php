@@ -18,17 +18,16 @@ use App\Http\Controllers\Controller;
 
 use Rumbelow\CrudController\PublicActions,
     Rumbelow\CrudController\Input,
+    Rumbelow\CrudController\Output,
     Rumbelow\CrudController\Fetchers,
+    Rumbelow\CrudController\Callbacks,
     Rumbelow\CrudController\Routing,
     Rumbelow\CrudController\I18n,
-    Rumbelow\CrudController\Validation,
-    Rumbelow\CrudController\Helpers;
-
-use Input, Redirect, Response;
+    Rumbelow\CrudController\Validation;
 
 abstract class CrudController extends Controller
 {
-    use PublicActions, Input, Fetchers, Routing, I18n, Validation, Helpers;
+    use PublicActions, Input, Output, Fetchers, Callbacks, Routing, I18n, Validation;
 
     /**
      * -----------------------------------------------------------------------------------------------------------------
@@ -60,30 +59,4 @@ abstract class CrudController extends Controller
      * @return array
      */
     abstract protected function getValidationRules(Request $request, Model $obj);
-
-    /**
-     * --------------------------------------------------------------------------------------------------------------
-     * Parameter getters – add any params you'd like to pass to the view
-     */
-
-    protected function toParams(Request $request, array $params) { return $params; }
-    protected function toParamsIndex(Request $request, array $params) { return $params; }
-    protected function toParamsShow(Request $request, array $params) { return $params; }
-    protected function toParamsCreate(Request $request, array $params) { return $params; }
-    protected function toParamsEdit(Request $request, array $params) { return $params; }
-    protected function toParamsConfirmDestroy(Request $request, array $params) { return $params; }
-
-    /**
-     * --------------------------------------------------------------------------------------------------------------
-     * These callback methods are called, like all good callback methods ought to be.
-     */
-
-    protected function beforeAll(Request $request) { }
-    protected function beforeEdit(Request $request, $model) { }
-    protected function beforeStore(Request $request, $model) { }
-    protected function beforeUpdate(Request $request, $model) { }
-    protected function beforeSave(Request $request, $model) { }
-    protected function afterCreate(Request $request, $model) { }
-    protected function afterUpdate(Request $request, $model) { }
-    protected function afterSave(Request $request, $model) { }
 }
