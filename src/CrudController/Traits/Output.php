@@ -26,8 +26,8 @@ trait Output
      * with the parameters that the controller thinks relevant; if you'd like to inject more values
      * into the view, this is the place to do it. toParams() is called on every request.
      *
-     * @var \Illuminate\Http\Request $request The request object
-     * @var array $params The existing parameters
+     * @param \Illuminate\Http\Request $request The request object
+     * @param array $params The existing parameters
      * @return array
      */
 
@@ -47,5 +47,36 @@ trait Output
     protected function getSingleName()
     {
         return str_singular($this->getCollectionName());
+    }
+
+    /**
+     * Load a view
+     *
+     * @param \Illuminate\Http\Request $request The request object
+     * @param array|\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse $data Parameters to pass to view, or a direct Laravel response
+     * @param string $viewName the name of the view, usually automatically guessed
+     * @return void
+     * @author 
+     **/
+    protected function loadView(Request $request, array $data = null, $viewName = null)
+    {
+        if (is_array($data) || is_null($data))
+        {
+            $actionName = explode('@', $request->route()->getActionName())[1];
+            $reflection = new \ReflectionClass($this);
+            $class = $reflection->getShortName();
+            $viewName = str_replace('_controller', '', snake_case($class)) . '.' . $actionName;
+            
+            $response = view($viewName)
+                ->with($data ?: array());
+        }
+
+        // Allow for returning instances of Redirect or Response.
+        else
+        {
+            $response = $data;
+        }
+
+        return $response;
     }
 }

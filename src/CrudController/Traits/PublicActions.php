@@ -35,9 +35,11 @@ trait PublicActions
         if ( $this instanceof Authorizable )
             $this->authorize('index', $klass);
 
-        return $this->toParamsIndex($request, $this->toParams($request, array(
+        $params = $this->toParamsIndex($request, $this->toParams($request, array(
             $this->getCollectionName() => $this->fetcherIndex($request, $klass),
         )));
+
+        return $this->loadView($request, $params);
     }
 
     public function create(Request $request)
@@ -49,9 +51,11 @@ trait PublicActions
         if ( $this instanceof Authorizable )
             $this->authorize('create', $klass);
 
-        return $this->toParamsCreate($request, $this->toParams($request, array(
+        $params = $this->toParamsCreate($request, $this->toParams($request, array(
             $this->getSingleName() => $this->fetcherCreate($request, $klass),
         )));
+
+        return $this->loadView($request, $params);
     }
 
     public function store(Request $request)
@@ -104,9 +108,11 @@ trait PublicActions
         if ( $this instanceof Authorizable )
             $this->authorize('read', $obj);
 
-        return $this->toParamsShow($request, $this->toParams($request, array(
+        $params = $this->toParamsShow($request, $this->toParams($request, array(
             $this->getSingleName() => $obj
         )));
+
+        return $this->loadView($request, $params);
     }
 
     public function edit(Request $request)
@@ -126,10 +132,12 @@ trait PublicActions
 
         $this->beforeEdit($request, $obj);
 
-        return $this->toParamsEdit($request, $this->toParams($request, array(
+        $params = $this->toParamsEdit($request, $this->toParams($request, array(
             $this->getSingleName() => $obj,
             'edit' => TRUE
         )));
+
+        return $this->loadView($request, $params);
     }
 
     public function update(Request $request)
@@ -186,9 +194,11 @@ trait PublicActions
         if ( $this instanceof Authorizable )
             $this->authorize('destroy', $obj);
 
-        return $this->toParamsConfirmDestroy($request, $this->toParams($request, array(
+        $params = $this->toParamsConfirmDestroy($request, $this->toParams($request, array(
             $this->getSingleName() => $obj,
         )));
+
+        return $this->loadView($request, $params);
     }
 
     public function destroy(Request $request)
