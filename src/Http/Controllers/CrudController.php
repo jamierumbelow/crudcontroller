@@ -22,11 +22,12 @@ use Rumbelow\CrudController\Traits\PublicActions,
     Rumbelow\CrudController\Traits\Fetchers,
     Rumbelow\CrudController\Traits\Callbacks,
     Rumbelow\CrudController\Traits\Routing,
-    Rumbelow\CrudController\Traits\I18n;
+    Rumbelow\CrudController\Traits\I18n,
+    Rumbelow\CrudController\Traits\Validation;
 
 abstract class CrudController extends Controller
 {
-    use PublicActions, Input, Output, Fetchers, Callbacks, Routing, I18n;
+    use PublicActions, Input, Output, Fetchers, Callbacks, Routing, I18n, Validation;
 
     /**
      * The array of booted controllers.
@@ -76,7 +77,7 @@ abstract class CrudController extends Controller
     {
         if (! isset(static::$booted[static::class])) {
             static::$booted[static::class] = true;
-            static::boot();
+            static::boot( $this );
         }
     }
 
@@ -85,9 +86,9 @@ abstract class CrudController extends Controller
      *
      * @return void
      */
-    protected static function boot()
+    protected static function boot( $instance )
     {
-        static::bootTraits();
+        static::bootTraits($instance);
     }
 
     /**
@@ -95,13 +96,13 @@ abstract class CrudController extends Controller
      *
      * @return void
      */
-    protected static function bootTraits()
+    protected static function bootTraits( $instance )
     {
         $class = static::class;
 
         foreach (class_uses_recursive($class) as $trait) {
             if (method_exists($class, $method = 'boot'.class_basename($trait))) {
-                forward_static_call([$class, $method]);
+                forward_static_call_array([$class, $method], [$instance]);
             }
         }
     }

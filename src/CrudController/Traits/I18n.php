@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 
 use Rumbelow\CrudController\Interfaces\Formerable;
 
-use Former\Former;
+use Former;
 
 /**
  * I18n handles the internationalisation / language support
@@ -30,10 +30,10 @@ trait I18n
      *
      * @internal
      */
-    protected static function bootI18n()
+    protected static function bootI18n($instance)
     {
-        if ( is_subclass_of(static::class, Formerable::class) )
-            Former::setOption('translate_from', $this->getLanguageName());
+        if ( is_subclass_of($instance, Formerable::class) )
+            Former::setOption('translate_from', $instance->getLanguageName());
     }
 
     /**

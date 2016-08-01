@@ -10,7 +10,8 @@
 
 namespace Rumbelow\CrudController\Interfaces;
 
-use Illuminate\Http\Request;
+use Illuminate\Http\Request,
+    Illuminate\Database\Eloquent\Model;
 
 /**
  * Data validation
@@ -29,6 +30,6 @@ interface Validatable {
      * @var \Illuminate\Database\Eloquent\Model $obj The model object
      * @return array
      */
-    protected function getValidationRules(Request $request, Model $obj);
+    public function getValidationRules(Request $request, Model $obj);
 
 }

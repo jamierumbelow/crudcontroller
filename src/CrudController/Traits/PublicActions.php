@@ -11,7 +11,7 @@
 namespace Rumbelow\CrudController\Traits;
 
 use Illuminate\Http\Request;
-use Former\Former;
+use Former;
 
 use Rumbelow\CrudController\Interfaces\Validatable,
     Rumbelow\CrudController\Interfaces\Formerable,

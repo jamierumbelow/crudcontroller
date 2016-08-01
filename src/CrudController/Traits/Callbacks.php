@@ -26,8 +26,8 @@ trait Callbacks
      *
      * @todo Rather than directly accessing the methods, these callbacks should be called 
      *       via a 'callback()' method, with a callback registry.
-     * @var \Illuminate\Http\Request $request The request object
-     * @var \Illuminate\Database\Eloquent\Model $model The model object
+     * @param \Illuminate\Http\Request $request The request object
+     * @param \Illuminate\Database\Eloquent\Model $model The model object
      * @return null
      */
 
