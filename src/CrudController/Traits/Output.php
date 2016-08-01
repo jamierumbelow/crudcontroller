@@ -50,6 +50,17 @@ trait Output
     }
 
     /**
+     * Get the base directory to be prepended to the view name
+     *
+     * @param string $klass The current class short name
+     * @return string
+     **/
+    protected function getViewBase($klass)
+    {
+        return str_replace('_controller', '', snake_case($klass));
+    }
+
+    /**
      * Load a view
      *
      * @param \Illuminate\Http\Request $request The request object
@@ -63,8 +74,9 @@ trait Output
         if (is_array($data) || is_null($data))
         {
             $reflection = new \ReflectionClass($this);
-            $class = $reflection->getShortName();
-            $viewName = str_replace('_controller', '', snake_case($class)) . '.' . $this->currentAction;
+            $klass = $reflection->getShortName();
+
+            $viewName = $this->getViewBase($klass) . '.' . $this->currentAction;
 
             $response = view($viewName)
                 ->with($data ?: array());

@@ -140,7 +140,7 @@ protected function getValidationRules(Request $request, Model $obj)
 
 ## Output
 
-CrudController contains an in-built view autoloader, which will load the appropriate view by guessing the view's name and location from the controller and action name. So, for example, `AccountsController@edit` will load the **accounts.edit** view.
+CrudController contains an in-built view autoloader, which will load the appropriate view by guessing the view's name and location from the controller and action name. So, for example, `AccountsController@edit` will load the **accounts.edit** view. The controller name can be changed by overriding `getViewBase()`.
 
 By default, the view will be given the relevant model record(s). On the `index` action, this will be a collection of your model instances (by default, `Model::all()`), named whatever is returned by `getCollectionName()`. On `create`, it'll be a new instance of the model class. On `show`, `edit` and `confirmDestroy`, it'll be an appropriate instance.
 

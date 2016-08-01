@@ -36,11 +36,41 @@ trait Routing
      * Get the redirect object on success
      *
      * @param \Illuminate\Http\Request $request The request object
-     * @param string $type The type of success, either 'create' or 'update'
+     * @param callable $cb
      * @return \Illuminate\Http\RedirectResponse
      */
-    protected function getRedirectSuccess( Request $request, $type = null )
+    protected function getRedirectSuccess(Request $request, callable $cb = null)
     {
-        return $request->has('_redirect') ? redirect($request->get('_redirect')) : redirect(route( $this->getRouteBase() . '.index' ));
+        $redirect = $request->has('_redirect') ? redirect($request->get('_redirect')) : redirect(route( $this->getRouteBase() . '.index' ));
+
+        if ( is_callable($cb) ) {
+            $redirect = call_user_func_array($cb, [ $redirect ]);
+        }
+
+        return $redirect;
     }
+
+    /**
+     * Get the redirect object on failure
+     *
+     * @param \Illuminate\Http\Request $request The request object
+     * @param callable $cb
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    protected function getRedirectFailure(Request $request, callable $cb = null)
+    {
+        $redirect = redirect()->back();
+
+        if ( is_callable($cb) ) {
+            $redirect = call_user_func_array($cb, [ $redirect ]);
+        }
+
+        return $redirect;
+    }
+
+    protected function getRedirectSuccessStore(Request $request, callable $cb = null) { return $this->getRedirectSuccess($request, $cb); }
+    protected function getRedirectSuccessUpdate(Request $request, callable $cb = null) { return $this->getRedirectSuccess($request, $cb); }
+    protected function getRedirectSuccessDestroy(Request $request, callable $cb = null) { return $this->getRedirectSuccess($request, $cb); }
+    protected function getRedirectFailureStore(Request $request, callable $cb = null) { return $this->getRedirectFailure($request, $cb); }
+    protected function getRedirectFailureUpdate(Request $request, callable $cb = null) { return $this->getRedirectFailure($request, $cb); }
 }

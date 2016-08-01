@@ -32,8 +32,9 @@ trait PublicActions
 
         $klass = $this->getClass();
 
-        if ( $this instanceof Authorizable )
+        if ( $this instanceof Authorizable ) {
             $this->authorize('index', $klass);
+        }
 
         $params = $this->_params($request, [
             $this->getCollectionName() => $this->fetcherIndex($request, $klass),
@@ -48,8 +49,9 @@ trait PublicActions
 
         $klass = $this->getClass();
 
-        if ( $this instanceof Authorizable )
+        if ( $this instanceof Authorizable ) {
             $this->authorize('create', $klass);
+        }
 
         $params = $this->_params($request, [
             $this->getSingleName() => $this->fetcherCreate($request, $klass),
@@ -65,16 +67,18 @@ trait PublicActions
         $klass = $this->getClass();
 
         // Check if we're allowed to proceed...
-        if ( $this instanceof Authorizable )
+        if ( $this instanceof Authorizable ) {
             $this->authorize('create', $klass);
+        }
 
         // Grab the input data and create a new instance of the model
         $obj = $this->fetcherStore($request, $klass);
         $input = $this->getInputData($request, $obj);
 
         // Validate?
-        if ( $this instanceof Validatable )
+        if ( $this instanceof Validatable ) {
             $this->validate($input, $this->getValidationRules($request, $obj));
+        }
 
         $obj->fill( $input );
 
@@ -83,17 +87,21 @@ trait PublicActions
 
         if ( ! $obj->save() )
         {
-            return Redirect::back()
-                ->withErrors($obj->getErrors())
-                ->withInput();
+            return $this->getRedirectFailureStore(function($r) use ($obj)
+            {
+                return $r->withErrors($obj->getErrors())
+                    ->withInput();
+            });
         }
         else
         {
             $this->afterCreate($request, $obj);
             $this->afterSave($request, $obj);
 
-            return $this->getRedirectSuccess($request, 'create')
-                ->with('alerts.success', trans( $this->getLanguageName() . '.success_create' ));
+            return $this->getRedirectSuccessStore($request, function($r)
+            {
+                return $r->with($this->alertSuccessKey, trans( $this->getLanguageBase() . '.success_create' ));
+            });
         }
     }
 
@@ -105,8 +113,9 @@ trait PublicActions
         $klass = $this->getClass();
         $obj = $this->fetcherShow($request, $klass, $id);
 
-        if ( $this instanceof Authorizable )
+        if ( $this instanceof Authorizable ) {
             $this->authorize('read', $obj);
+        }
 
         $params = $this->_params($request, [
             $this->getSingleName() => $obj
@@ -123,12 +132,14 @@ trait PublicActions
         $klass = $this->getClass();
         $obj = $this->fetcherEdit($request, $klass, $id);
 
-        if ( $this instanceof Authorizable )
+        if ( $this instanceof Authorizable ) {
             $this->authorize('update', $obj);
+        }
 
         // If we've enabled Former support, then we should populate the form with the object data.
-        if ( $this instanceof Formerable )
+        if ( $this instanceof Formerable ) {
             Former::populate($obj);
+        }
 
         $this->beforeEdit($request, $obj);
 
@@ -150,11 +161,13 @@ trait PublicActions
         $obj = $this->fetcherUpdate($request, $klass, $id);
         $input = $this->getInputData($request, $obj);
         
-        if ( $this instanceof Authorizable )
+        if ( $this instanceof Authorizable ) {
             $this->authorize('update', $obj);
+        }
 
-        if ( $this instanceof Validatable )
+        if ( $this instanceof Validatable ) {
             $this->validate($input, $this->getValidationRules($request, $obj));
+        }
 
         $obj->fill( $input );
 
@@ -163,23 +176,33 @@ trait PublicActions
         
         if ( ! $obj->save() )
         {
-            if ( $request->wantsJson() )
-                return response()->json([ 'success' => false ]);
-            else
-                return Redirect::back()
-                    ->withErrors($obj->getErrors())
-                    ->withInput();
+            $errors = $obj->getErrors();
+
+            if ( $request->wantsJson() ) {
+                return response()->json([ 'success' => false, 'errors' => $errors ]);
+            }
+            else {
+                return $this->getRedirectFailureUpdate(function($r) use ($errors)
+                {
+                    return $r->withErrors($errors)
+                        ->withInput();
+                });
+            }
         }
         else
         {
             $this->afterUpdate($request, $obj);
             $this->afterSave($request, $obj);
 
-            if ( $request->wantsJson() )
+            if ( $request->wantsJson() ) {
                 return response()->json([ 'success' => true ]);
-            else
-                return $this->getRedirectSuccess($request, 'update')
-                    ->with('alerts.success', trans( $this->getLanguageName() . '.success_update' ));
+            }
+            else {
+                return $this->getRedirectSuccessUpdate($request, function($r)
+                {
+                    return $r->with($this->alertSuccessKey, trans( $this->getLanguageBase() . '.success_update' ));
+                });
+            }
         }
     }
 
@@ -191,8 +214,9 @@ trait PublicActions
         $klass = $this->getClass();
         $obj = $this->fetcherConfirmDestroy($request, $klass, $id);
 
-        if ( $this instanceof Authorizable )
+        if ( $this instanceof Authorizable ) {
             $this->authorize('destroy', $obj);
+        }
 
         $params = $this->_params($request, [
             $this->getSingleName() => $obj,
@@ -209,12 +233,15 @@ trait PublicActions
         $klass = $this->getClass();
         $obj = $this->fetcherDestroy($request, $klass, $id);
         
-        if ( $this instanceof Authorizable )
+        if ( $this instanceof Authorizable ) {
             $this->authorize('destroy', $obj);
+        }
 
         $obj->delete();
 
-        return Redirect::route( $this->getRouteBase() . '.index')
-            ->with('alerts.success', trans( $this->getLanguageName() . '.success_destroy' ));
+        return $this->getRedirectSuccessDestroy($request, function($r)
+        {
+            return $r->with($this->alertSuccessKey, trans( $this->getLanguageBase() . '.success_destroy' ));
+        });
     }
 }

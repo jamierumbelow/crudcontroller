@@ -44,6 +44,13 @@ abstract class CrudController extends Controller
     protected $currentAction;
 
     /**
+     * undocumented class variable
+     *
+     * @var string
+     **/
+    protected $alertSuccessKey = 'alerts.success';
+
+    /**
      * Class constructor.
      */
     public function __construct(Request $request)
