@@ -21,6 +21,9 @@
             "Rumbelow\\CrudController\\Test\\": "test/"
         }
     },
+    "suggest": {
+        "anahkiasen/former": "Out of the box support for Former forms (~4.0)."
+    },
     "license": "MIT",
     "authors": [
         {
