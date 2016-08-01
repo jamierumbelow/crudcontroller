@@ -11,8 +11,10 @@
 namespace Rumbelow\CrudController\Traits;
 
 use Illuminate\Http\Request;
+use Former\Former;
 
-use Rumbelow\CrudController\Interfaces\Validatable;
+use Rumbelow\CrudController\Interfaces\Validatable,
+    Rumbelow\CrudController\Interfaces\Formerable;
 
 /**
  * PublicActions are the core of the CRUD functionality; the methods accessed directly through the router.
@@ -109,7 +111,10 @@ trait PublicActions
 
         $this->requireAccess('update', $obj);
 
-        Former::populate($obj);
+        // If we've enabled Former support, then we should populate the form with the object data.
+        if ( $this instanceof Formerable )
+            Former::populate($obj);
+
         $this->beforeEdit($request, $obj);
 
         return $this->toParamsEdit($request, $this->toParams($request, array(

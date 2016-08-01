@@ -30,11 +30,21 @@ abstract class CrudController extends Controller
     use PublicActions, Input, Output, Fetchers, Callbacks, Routing, I18n, Validation;
 
     /**
-     * -----------------------------------------------------------------------------------------------------------------
-     * The following methods are the base configuration methods. They enable child classes to customise the basic values
-     * used in the CRUD methods. If you need to customise the /behaviour/, you should use the callbacks, found below, or 
-     * else just overload one of the basic methods.
+     * The array of booted controllers.
+     *
+     * @var array
      */
+    protected static $booted = [];
+
+    /**
+     * Class constructor.
+     */
+    public function __construct()
+    {
+        self::bootIfNotBooted();
+
+        parent::__construct();
+    }
 
     /**
      * Get the model class.
@@ -49,4 +59,51 @@ abstract class CrudController extends Controller
      * @return string
      */
     abstract protected function getCollectionName();
+
+    /**
+     * Booting Mechanism (taken from \Illuminate\Database\Eloquent\Model)
+     *
+     * @author Taylor Otwell
+     * @author Jamie Rumbelow
+     * -----------------------------------------------------------------------------------------------------------------------------
+     */
+
+    /**
+     * Check if the controller needs to be booted and if so, do it.
+     *
+     * @return void
+     */
+    protected function bootIfNotBooted()
+    {
+        if (! isset(static::$booted[static::class])) {
+            static::$booted[static::class] = true;
+            static::boot();
+        }
+    }
+
+    /**
+     * The "booting" method of the controller.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        static::bootTraits();
+    }
+
+    /**
+     * Boot all of the bootable traits on the controller.
+     *
+     * @return void
+     */
+    protected static function bootTraits()
+    {
+        $class = static::class;
+
+        foreach (class_uses_recursive($class) as $trait) {
+            if (method_exists($class, $method = 'boot'.class_basename($trait))) {
+                forward_static_call([$class, $method]);
+            }
+        }
+    }
 }

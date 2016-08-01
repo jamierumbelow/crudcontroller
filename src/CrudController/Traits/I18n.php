@@ -12,6 +12,10 @@ namespace Rumbelow\CrudController\Traits;
 
 use Illuminate\Http\Request;
 
+use Rumbelow\CrudController\Interfaces\Formerable;
+
+use Former\Former;
+
 /**
  * I18n handles the internationalisation / language support
  *
@@ -21,6 +25,17 @@ use Illuminate\Http\Request;
  */
 trait I18n
 {
+    /**
+     * Boot the I18n trait.
+     *
+     * @internal
+     */
+    protected static function bootI18n()
+    {
+        if ( is_subclass_of(static::class, Formerable::class) )
+            Former::setOption('translate_from', $this->getLanguageName());
+    }
+
     /**
      * Get the name for this controller's language file. Defaults to the collection name.
      *

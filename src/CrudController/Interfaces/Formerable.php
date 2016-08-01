@@ -13,22 +13,11 @@ namespace Rumbelow\CrudController\Interfaces;
 use Illuminate\Http\Request;
 
 /**
- * Data validation
+ * Enable Former support
  *
  * @uses \Rumbelow\Http\Controllers\CrudController
+ * @uses \Former\Former
  * @used-by \Rumbelow\Http\Controllers\CrudController
  */
 
-interface Validatable {
-
-    /**
-     * Get the validation rules. Either a two-dimensional array, with 'creating' and 'updating'
-     * keys, or a straight validation rules array.
-     *
-     * @var \Illuminate\Http\Request $request The request object
-     * @var \Illuminate\Database\Eloquent\Model $obj The model object
-     * @return array
-     */
-    protected function getValidationRules(Request $request, Model $obj);
-
-}
+interface Formerable { }
