@@ -70,7 +70,7 @@ trait PublicActions
 
         // Validate?
         if ( $this instanceof Validatable )
-            $this->validate($input, $this->validationRules($request, $obj));
+            $this->validate($input, $this->getValidationRules($request, $obj));
 
         $obj->fill( $input );
 
@@ -146,7 +146,7 @@ trait PublicActions
             $this->authorize('update', $obj);
 
         if ( $this instanceof Validatable )
-            $this->validate($input, $this->validationRules($request, $obj));
+            $this->validate($input, $this->getValidationRules($request, $obj));
 
         $obj->fill( $input );
 

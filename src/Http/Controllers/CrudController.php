@@ -22,8 +22,7 @@ use Rumbelow\CrudController\Traits\PublicActions,
     Rumbelow\CrudController\Traits\Fetchers,
     Rumbelow\CrudController\Traits\Callbacks,
     Rumbelow\CrudController\Traits\Routing,
-    Rumbelow\CrudController\Traits\I18n,
-    Rumbelow\CrudController\Traits\Validation;
+    Rumbelow\CrudController\Traits\I18n;
 
 abstract class CrudController extends Controller
 {
