@@ -42,8 +42,8 @@ trait Fetchers
     /**
      * Fetch an instance
      *
-     * @var string $klass The class name to instantiate
-     * @var int|null $id The ID of the instance to fetch
+     * @param string $klass The class name to instantiate
+     * @param int|null $id The ID of the instance to fetch
      * @return \Illuminate\Database\Eloquent\Model
      */
     protected function fetchInstance($klass, $id)
@@ -54,7 +54,7 @@ trait Fetchers
     /**
      * Fetch a new instance
      *
-     * @var string The class name to instantiate
+     * @param string The class name to instantiate
      * @return \Illuminate\Database\Eloquent\Model
      */
     protected function fetchNewInstance($klass)

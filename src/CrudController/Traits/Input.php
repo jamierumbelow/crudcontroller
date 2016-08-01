@@ -36,8 +36,8 @@ trait Input
     /**
      * Get the model attributes marked as checkboxes in the form.
      *
-     * @var \Illuminate\Http\Request $request The request object
-     * @var \Illuminate\Database\Eloquent\Model $model The model object
+     * @param \Illuminate\Http\Request $request The request object
+     * @param \Illuminate\Database\Eloquent\Model $model The model object
      * @return array[string]
      */
     protected function getCheckboxes(Request $request, Model $model)
@@ -48,8 +48,8 @@ trait Input
     /**
      * Get the model attributes marked as nullable.
      *
-     * @var \Illuminate\Http\Request $request The request object
-     * @var \Illuminate\Database\Eloquent\Model $model The model object
+     * @param \Illuminate\Http\Request $request The request object
+     * @param \Illuminate\Database\Eloquent\Model $model The model object
      * @return array[string]
      */
     protected function getNullable(Request $request, Model $model)
@@ -60,8 +60,8 @@ trait Input
     /**
      * Get the apropriate input data from the request.
      *
-     * @var \Illuminate\Http\Request $request The request object
-     * @var \Illuminate\Database\Eloquent\Model $model The model object
+     * @param \Illuminate\Http\Request $request The request object
+     * @param \Illuminate\Database\Eloquent\Model $model The model object
      * @return array
      */
     protected function getInputData(Request $request, Model $model)

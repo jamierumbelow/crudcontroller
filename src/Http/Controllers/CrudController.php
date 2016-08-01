@@ -84,6 +84,7 @@ abstract class CrudController extends Controller
     /**
      * The "booting" method of the controller.
      *
+     * @param \Rumbelow\Http\Controllers\CrudController $instance The instance being booted
      * @return void
      */
     protected static function boot( $instance )
@@ -94,6 +95,7 @@ abstract class CrudController extends Controller
     /**
      * Boot all of the bootable traits on the controller.
      *
+     * @param \Rumbelow\Http\Controllers\CrudController $instance The instance being booted
      * @return void
      */
     protected static function bootTraits( $instance )

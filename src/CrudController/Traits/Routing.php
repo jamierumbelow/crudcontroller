@@ -35,8 +35,8 @@ trait Routing
     /**
      * Get the redirect object on success
      *
-     * @var \Illuminate\Http\Request $request The request object
-     * @var string $type The type of success, either 'create' or 'update'
+     * @param \Illuminate\Http\Request $request The request object
+     * @param string $type The type of success, either 'create' or 'update'
      * @return \Illuminate\Http\RedirectResponse
      */
     protected function getRedirectSuccess( Request $request, $type = null )

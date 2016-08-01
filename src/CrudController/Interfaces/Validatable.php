@@ -26,8 +26,8 @@ interface Validatable {
      * Get the validation rules. Either a two-dimensional array, with 'creating' and 'updating'
      * keys, or a straight validation rules array.
      *
-     * @var \Illuminate\Http\Request $request The request object
-     * @var \Illuminate\Database\Eloquent\Model $obj The model object
+     * @param \Illuminate\Http\Request $request The request object
+     * @param \Illuminate\Database\Eloquent\Model $obj The model object
      * @return array
      */
     public function getValidationRules(Request $request, Model $obj);
