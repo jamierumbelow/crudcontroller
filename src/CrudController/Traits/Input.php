@@ -79,7 +79,7 @@ trait Input
         $data = InputFacade::only( $attributes );
 
         // And filter it! Or not.
-        $data = $this->enableFilter ? array_filter($data) : $data;
+        $data = $this->enableInputFilter ? array_filter($data) : $data;
 
         // Since array_filter will cancel out any '0' strings, we won't be able to let through checkboxes
         // by having a hidden <input> field. But no worries, since that's messy anyway. Instead, let's
