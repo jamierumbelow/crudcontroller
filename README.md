@@ -28,14 +28,9 @@ class PostsController extends CrudController implements Authorizable, Formerable
 
     protected function getValidationRules(Request $request, Model $obj)
     {
-        $rules = [
+        return [
             'title' => 'required|max:100',
             'body' => 'required',
-        ];
-
-        return [
-            'creating' => $rules,
-            'updating' => $rules,
         ];
     }
 }
