@@ -14,7 +14,7 @@ CrudController is a base controller for Laravel 5 applications, making it painfu
 ## Synopsis
 
 ```php
-class PostsController extends CrudController
+class PostsController extends CrudController implements Authorizable, Formerable, Validatable
 {
     protected function getClass()
     {

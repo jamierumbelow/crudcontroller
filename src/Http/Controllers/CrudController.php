@@ -26,7 +26,7 @@ use Rumbelow\CrudController\Traits\PublicActions,
 
 abstract class CrudController extends Controller
 {
-    use PublicActions, Input, Output, Fetchers, Callbacks, Routing, I18n, Validation;
+    use PublicActions, Input, Output, Fetchers, Callbacks, Routing, I18n;
 
     /**
      * The array of booted controllers.
