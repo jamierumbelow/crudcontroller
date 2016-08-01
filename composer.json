@@ -13,12 +13,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Rumbelow\\": "src"
+            "Rumbelow\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Rumbelow\\CrudController\\Test\\": "test"
+            "Rumbelow\\CrudController\\Test\\": "test/"
         }
     },
     "license": "MIT",

@@ -8,7 +8,7 @@
  * @link https://github.com/jamierumbelow/crudcontroller
  */
 
-namespace Rumbelow\CrudController;
+namespace Rumbelow\CrudController\Traits;
 
 use Illuminate\Http\Request;
 

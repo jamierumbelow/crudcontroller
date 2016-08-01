@@ -16,14 +16,14 @@ use Illuminate\Database\Eloquent\Model;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use Rumbelow\CrudController\PublicActions,
-    Rumbelow\CrudController\Input,
-    Rumbelow\CrudController\Output,
-    Rumbelow\CrudController\Fetchers,
-    Rumbelow\CrudController\Callbacks,
-    Rumbelow\CrudController\Routing,
-    Rumbelow\CrudController\I18n,
-    Rumbelow\CrudController\Validation;
+use Rumbelow\CrudController\Traits\PublicActions,
+    Rumbelow\CrudController\Traits\Input,
+    Rumbelow\CrudController\Traits\Output,
+    Rumbelow\CrudController\Traits\Fetchers,
+    Rumbelow\CrudController\Traits\Callbacks,
+    Rumbelow\CrudController\Traits\Routing,
+    Rumbelow\CrudController\Traits\I18n,
+    Rumbelow\CrudController\Traits\Validation;
 
 abstract class CrudController extends Controller
 {
@@ -49,14 +49,4 @@ abstract class CrudController extends Controller
      * @return string
      */
     abstract protected function getCollectionName();
-
-    /**
-     * Get the validation rules. Either a two-dimensional array, with 'creating' and 'updating'
-     * keys, or a straight validation rules array.
-     *
-     * @var \Illuminate\Http\Request $request The request object
-     * @var \Illuminate\Database\Eloquent\Model $obj The model object
-     * @return array
-     */
-    abstract protected function getValidationRules(Request $request, Model $obj);
 }

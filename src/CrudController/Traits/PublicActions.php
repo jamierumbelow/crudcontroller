@@ -8,9 +8,11 @@
  * @link https://github.com/jamierumbelow/crudcontroller
  */
 
-namespace Rumbelow\CrudController;
+namespace Rumbelow\CrudController\Traits;
 
 use Illuminate\Http\Request;
+
+use Rumbelow\CrudController\Interfaces\Validatable;
 
 /**
  * PublicActions are the core of the CRUD functionality; the methods accessed directly through the router.
@@ -57,8 +59,9 @@ trait PublicActions
         $obj = $this->fetcherStore($request, $klass);
         $input = $this->getInputData($request, $obj);
 
-        // Validate the incoming data. If it's bad, then Laravel will redirect us away.
-        $this->validate($input, $this->validationRules($request, $obj));
+        // Validate?
+        if ( $this instanceof Validatable )
+            $this->validate($input, $this->validationRules($request, $obj));
 
         $obj->fill( $input );
 
@@ -127,8 +130,8 @@ trait PublicActions
         
         $this->requireAccess('update', $obj);
 
-        // Validate the incoming data. If it's bad, then Laravel will redirect us away.
-        $this->validate($input, $this->validationRules($request, $obj));
+        if ( $this instanceof Validatable )
+            $this->validate($input, $this->validationRules($request, $obj));
 
         $obj->fill( $input );
 
