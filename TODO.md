@@ -5,6 +5,7 @@
 * Proper events
 * Testing(!)
 * PHP7 and HHVM
-* Move in view autoloading
+* AJAX support?
+* Figure out a better way to handle redirects
 * Use contracts, not facades
 * Loads more

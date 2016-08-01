@@ -140,6 +140,39 @@ protected function getValidationRules(Request $request, Model $obj)
 
 ## Output
 
+CrudController contains an in-built view autoloader, which will load the appropriate view by guessing the view's name and location from the controller and action name. So, for example, `AccountsController@edit` will load the **accounts.edit** view.
+
+By default, the view will be given the relevant model record(s). On the `index` action, this will be a collection of your model instances (by default, `Model::all()`), named whatever is returned by `getCollectionName()`. On `create`, it'll be a new instance of the model class. On `show`, `edit` and `confirmDestroy`, it'll be an appropriate instance.
+
+For instance, with the following controller:
+
+```php
+class PostsController extends CrudController implements Authorizable, Formerable, Validatable
+{
+    protected function getClass()
+    {
+        return Post::class;
+    }
+
+    protected function getCollectionName()
+    {
+        return 'posts';
+    }
+```
+
+...you'll see the following variables:
+
+| Route                        | Variable | Value            |
+| `posts.index`                | `$posts` | `Post::all()`    |
+| `posts.show(:id)`            | `$post`  | `Post::find(ID)` |
+| `posts.create`               | `$post`  | `new Post`       |
+| `posts.edit(:id)`            | `$post`  | `Post::find(ID)` |
+| `posts.confirmDestroy(:id)`  | `$post`  | `Post::find(ID)` |
+
+[See the fetchers section for how to customise these values.](#fetchers)
+
+TODO: more on params
+
 ### Routing
 
 ## Authorization
