@@ -35,9 +35,9 @@ trait PublicActions
         if ( $this instanceof Authorizable )
             $this->authorize('index', $klass);
 
-        $params = $this->toParamsIndex($request, $this->toParams($request, array(
+        $params = $this->_params($request, [
             $this->getCollectionName() => $this->fetcherIndex($request, $klass),
-        )));
+        ]);
 
         return $this->loadView($request, $params);
     }
@@ -51,9 +51,9 @@ trait PublicActions
         if ( $this instanceof Authorizable )
             $this->authorize('create', $klass);
 
-        $params = $this->toParamsCreate($request, $this->toParams($request, array(
+        $params = $this->_params($request, [
             $this->getSingleName() => $this->fetcherCreate($request, $klass),
-        )));
+        ]);
 
         return $this->loadView($request, $params);
     }
@@ -108,9 +108,9 @@ trait PublicActions
         if ( $this instanceof Authorizable )
             $this->authorize('read', $obj);
 
-        $params = $this->toParamsShow($request, $this->toParams($request, array(
+        $params = $this->_params($request, [
             $this->getSingleName() => $obj
-        )));
+        ]);
 
         return $this->loadView($request, $params);
     }
@@ -132,10 +132,10 @@ trait PublicActions
 
         $this->beforeEdit($request, $obj);
 
-        $params = $this->toParamsEdit($request, $this->toParams($request, array(
+        $params = $this->_params($request, [
             $this->getSingleName() => $obj,
             'edit' => TRUE
-        )));
+        ]);
 
         return $this->loadView($request, $params);
     }
@@ -194,9 +194,9 @@ trait PublicActions
         if ( $this instanceof Authorizable )
             $this->authorize('destroy', $obj);
 
-        $params = $this->toParamsConfirmDestroy($request, $this->toParams($request, array(
+        $params = $this->_params($request, [
             $this->getSingleName() => $obj,
-        )));
+        ]);
 
         return $this->loadView($request, $params);
     }

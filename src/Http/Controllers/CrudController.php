@@ -37,13 +37,22 @@ abstract class CrudController extends Controller
     protected static $booted = [];
 
     /**
+     * The current action being processed by the controller.
+     *
+     * @var string
+     **/
+    protected $currentAction;
+
+    /**
      * Class constructor.
      */
-    public function __construct()
+    public function __construct(Request $request)
     {
         self::bootIfNotBooted();
 
         parent::__construct();
+
+        $this->currentAction = explode('@', $request->route()->getActionName())[1];
     }
 
     /**

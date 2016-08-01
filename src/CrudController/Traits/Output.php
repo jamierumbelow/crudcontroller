@@ -62,11 +62,10 @@ trait Output
     {
         if (is_array($data) || is_null($data))
         {
-            $actionName = explode('@', $request->route()->getActionName())[1];
             $reflection = new \ReflectionClass($this);
             $class = $reflection->getShortName();
-            $viewName = str_replace('_controller', '', snake_case($class)) . '.' . $actionName;
-            
+            $viewName = str_replace('_controller', '', snake_case($class)) . '.' . $this->currentAction;
+
             $response = view($viewName)
                 ->with($data ?: array());
         }
@@ -78,5 +77,20 @@ trait Output
         }
 
         return $response;
+    }
+
+    /**
+     * Process the toParams methods
+     *
+     * @internal
+     * @param \Illuminate\Http\Request $request
+     * @param array $params
+     * @return array
+     **/
+    protected function _params(Request $request, $params = [])
+    {
+        $method = 'toParams' . $this->currentAction;
+
+        return $this->$method($request, $this->toParams($request, $params));
     }
 }
