@@ -14,7 +14,8 @@ use Illuminate\Http\Request;
 use Former\Former;
 
 use Rumbelow\CrudController\Interfaces\Validatable,
-    Rumbelow\CrudController\Interfaces\Formerable;
+    Rumbelow\CrudController\Interfaces\Formerable,
+    Rumbelow\CrudController\Interfaces\Authorizable;
 
 /**
  * PublicActions are the core of the CRUD functionality; the methods accessed directly through the router.
@@ -30,7 +31,9 @@ trait PublicActions
         $this->beforeAll($request);
 
         $klass = $this->getClass();
-        $this->requireAccess('index', $klass);
+
+        if ( $this instanceof Authorizable )
+            $this->authorize('index', $klass);
 
         return $this->toParamsIndex($request, $this->toParams($request, array(
             $this->getCollectionName() => $this->fetcherIndex($request, $klass),
@@ -42,7 +45,9 @@ trait PublicActions
         $this->beforeAll($request);
 
         $klass = $this->getClass();
-        $this->requireAccess('create', $klass);
+
+        if ( $this instanceof Authorizable )
+            $this->authorize('create', $klass);
 
         return $this->toParamsCreate($request, $this->toParams($request, array(
             $this->getSingleName() => $this->fetcherCreate($request, $klass),
@@ -53,9 +58,11 @@ trait PublicActions
     {
         $this->beforeAll($request);
 
-        // Check if we're allowed to proceed...
         $klass = $this->getClass();
-        $this->requireAccess('create', $klass);
+
+        // Check if we're allowed to proceed...
+        if ( $this instanceof Authorizable )
+            $this->authorize('create', $klass);
 
         // Grab the input data and create a new instance of the model
         $obj = $this->fetcherStore($request, $klass);
@@ -94,7 +101,8 @@ trait PublicActions
         $klass = $this->getClass();
         $obj = $this->fetcherShow($request, $klass, $id);
 
-        $this->requireAccess('read', $obj);
+        if ( $this instanceof Authorizable )
+            $this->authorize('read', $obj);
 
         return $this->toParamsShow($request, $this->toParams($request, array(
             $this->getSingleName() => $obj
@@ -109,7 +117,8 @@ trait PublicActions
         $klass = $this->getClass();
         $obj = $this->fetcherEdit($request, $klass, $id);
 
-        $this->requireAccess('update', $obj);
+        if ( $this instanceof Authorizable )
+            $this->authorize('update', $obj);
 
         // If we've enabled Former support, then we should populate the form with the object data.
         if ( $this instanceof Formerable )
@@ -133,7 +142,8 @@ trait PublicActions
         $obj = $this->fetcherUpdate($request, $klass, $id);
         $input = $this->getInputData($request, $obj);
         
-        $this->requireAccess('update', $obj);
+        if ( $this instanceof Authorizable )
+            $this->authorize('update', $obj);
 
         if ( $this instanceof Validatable )
             $this->validate($input, $this->validationRules($request, $obj));
@@ -173,7 +183,8 @@ trait PublicActions
         $klass = $this->getClass();
         $obj = $this->fetcherConfirmDestroy($request, $klass, $id);
 
-        $this->requireAccess('destroy', $obj);
+        if ( $this instanceof Authorizable )
+            $this->authorize('destroy', $obj);
 
         return $this->toParamsConfirmDestroy($request, $this->toParams($request, array(
             $this->getSingleName() => $obj,
@@ -188,7 +199,8 @@ trait PublicActions
         $klass = $this->getClass();
         $obj = $this->fetcherDestroy($request, $klass, $id);
         
-        $this->requireAccess('destroy', $obj);
+        if ( $this instanceof Authorizable )
+            $this->authorize('destroy', $obj);
 
         $obj->delete();
 

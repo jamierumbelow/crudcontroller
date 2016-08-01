@@ -107,6 +107,18 @@ If you'd like to enable Former support, ...
 
 ## Authorization
 
+If your controller implements the `Rumbelow\CrudController\Interfaces\Authorizable` interface, each of the base CRUD methods will check if the user is authorized to perform the given action before proceeding. It does so [using Laravel's built in `authorize()` method](https://laravel.com/docs/5.2/authorization#controller-authorization), so it will call your policies as you expect.
+
+[For more information on how to set up Laravel's built-in authorization, see here.](https://laravel.com/docs/5.2/authorization)
+
+Permissions match up, by and large, with the base CRUD methods in [`src/CrudController/Traits/PublicActions.php`](src/CrudController/Traits/PublicActions.php).
+
+* `index` – called on `index()` requests. Passed the class name as a string (`$klass`).
+* `read` – called on `show()` requests. Passed the instance of whatever class is being displayed.
+* `create` – called on `create()` and `store()` requests. Passed the class name as a string (`$klass`).
+* `update` – called on `edit()` and `update()` requests. Passed the instance of whatever class is being updated.
+* `destroy` – called on `confirmDestroy()` and `destroy()` requests. Passed the instance of whatever class is being destroyed.
+
 ## Fetchers
 
 ## Language / I18n
