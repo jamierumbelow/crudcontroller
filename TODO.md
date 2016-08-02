@@ -6,6 +6,5 @@
 * Testing(!)
 * PHP7 and HHVM
 * AJAX support?
-* Figure out a better way to handle redirects
 * Use contracts, not facades
 * Loads more

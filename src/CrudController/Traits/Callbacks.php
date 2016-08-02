@@ -22,21 +22,73 @@ use Illuminate\Http\Request;
 trait Callbacks
 {
     /**
-     * These callback methods are called, like all good callback methods ought to be.
+     * The callback registry
      *
-     * @todo Rather than directly accessing the methods, these callbacks should be called 
-     *       via a 'callback()' method, with a callback registry.
+     * @var array
+     **/
+    protected $registeredCallbacks = [
+        'beforeAll' => [ 'beforeAll' ],
+        'beforeStore' => [ 'beforeStore' ],
+        'beforeUpdate' => [ 'beforeUpdate' ],
+        'beforeSave' => [ 'beforeSave' ],
+        'beforeDestroy' => [ 'beforeDestroy' ],
+        'afterStore' => [ 'afterStore' ],
+        'afterUpdate' => [ 'afterUpdate' ],
+        'afterSave' => [ 'afterSave' ],
+        'afterDestroy' => [ 'afterDestroy' ],
+    ];
+
+    /**
+     * Placeholder callbacks. These are included in the registry by default.
+     *
      * @param \Illuminate\Http\Request $request The request object
      * @param \Illuminate\Database\Eloquent\Model $model The model object
      * @return null
      */
 
     protected function beforeAll(Request $request) { }
-    protected function beforeEdit(Request $request, $model) { }
     protected function beforeStore(Request $request, $model) { }
     protected function beforeUpdate(Request $request, $model) { }
     protected function beforeSave(Request $request, $model) { }
-    protected function afterCreate(Request $request, $model) { }
+    protected function beforeDestroy(Request $request, $model) { }
+    protected function afterStore(Request $request, $model) { }
     protected function afterUpdate(Request $request, $model) { }
     protected function afterSave(Request $request, $model) { }
+    protected function afterDestroy(Request $request, $model) { }
+
+    /**
+     * Process callbacks for $eventName
+     *
+     * @param string $eventName
+     * @return void
+     **/
+    protected function callback($eventName)
+    {
+        if ( ! isset( $this->registeredCallbacks[$eventName] ) ) throw new \ErrorException("Unknown callback: $eventName");
+
+        $parameters = array_slice(func_get_args(), 1);
+        $callbacks = $this->registeredCallbacks[$eventName];
+
+        foreach ( $callbacks as $callback )
+        {
+            call_user_func_array( is_callable($callback) ? $callback : [ $this, $callback ], $parameters);
+        }
+    }
+
+    /**
+     * Add a callback to the registry
+     *
+     * @param string $eventName
+     * @param callable $callback
+     * @return void
+     **/
+    protected function registerCallback($eventName, $callback)
+    {
+        if ( isset($this->registeredCallbacks[$eventName]) ) {
+            $this->registeredCallbacks[$eventName][] = $callback;
+        }
+        else {
+            $this->registeredCallbacks[$eventName] = [ $callback ];
+        }
+    }
 }

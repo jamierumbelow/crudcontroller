@@ -28,7 +28,7 @@ trait PublicActions
 {
     public function index(Request $request)
     {
-        $this->beforeAll($request);
+        $this->callback('beforeAll', $request);
 
         $klass = $this->getClass();
 
@@ -45,7 +45,7 @@ trait PublicActions
 
     public function create(Request $request)
     {
-        $this->beforeAll($request);
+        $this->callback('beforeAll', $request);
 
         $klass = $this->getClass();
 
@@ -62,7 +62,7 @@ trait PublicActions
 
     public function store(Request $request)
     {
-        $this->beforeAll($request);
+        $this->callback('beforeAll', $request);
 
         $klass = $this->getClass();
 
@@ -82,8 +82,8 @@ trait PublicActions
 
         $obj->fill( $input );
 
-        $this->beforeStore($request, $obj);
-        $this->beforeSave($request, $obj);
+        $this->callback('beforeStore', $request, $obj);
+        $this->callback('beforeSave', $request, $obj);
 
         if ( ! $obj->save() )
         {
@@ -95,8 +95,8 @@ trait PublicActions
         }
         else
         {
-            $this->afterCreate($request, $obj);
-            $this->afterSave($request, $obj);
+            $this->callback('afterStore', $request, $obj);
+            $this->callback('afterSave', $request, $obj);
 
             return $this->getRedirectSuccessStore($request, function($r)
             {
@@ -107,7 +107,7 @@ trait PublicActions
 
     public function show(Request $request)
     {
-        $this->beforeAll($request);
+        $this->callback('beforeAll', $request);
 
         $id = $request->route($this->getCollectionName());
         $klass = $this->getClass();
@@ -126,7 +126,7 @@ trait PublicActions
 
     public function edit(Request $request)
     {
-        $this->beforeAll($request);
+        $this->callback('beforeAll', $request);
 
         $id = $request->route($this->getCollectionName());
         $klass = $this->getClass();
@@ -141,8 +141,6 @@ trait PublicActions
             Former::populate($obj);
         }
 
-        $this->beforeEdit($request, $obj);
-
         $params = $this->_params($request, [
             $this->getSingleName() => $obj,
             'edit' => TRUE
@@ -153,7 +151,7 @@ trait PublicActions
 
     public function update(Request $request)
     {
-        $this->beforeAll($request);
+        $this->callback('beforeAll', $request);
 
         $id = $request->route($this->getCollectionName());
         $klass = $this->getClass();
@@ -171,8 +169,8 @@ trait PublicActions
 
         $obj->fill( $input );
 
-        $this->beforeUpdate($request, $obj);
-        $this->beforeSave($request, $obj);
+        $this->callback('beforeUpdate', $request, $obj);
+        $this->callback('beforeSave', $request, $obj);
         
         if ( ! $obj->save() )
         {
@@ -191,8 +189,8 @@ trait PublicActions
         }
         else
         {
-            $this->afterUpdate($request, $obj);
-            $this->afterSave($request, $obj);
+            $this->callback('afterUpdate', $request, $obj);
+            $this->callback('afterSave', $request, $obj);
 
             if ( $request->wantsJson() ) {
                 return response()->json([ 'success' => true ]);
@@ -208,7 +206,7 @@ trait PublicActions
 
     public function confirmDestroy(Request $request)
     {
-        $this->beforeAll($request);
+        $this->callback('beforeAll', $request);
 
         $id = $request->route($this->getCollectionName());
         $klass = $this->getClass();
@@ -237,7 +235,11 @@ trait PublicActions
             $this->authorize('destroy', $obj);
         }
 
+        $this->callback('beforeDestroy', $request, $obj);
+
         $obj->delete();
+
+        $this->callback('afterDestroy', $request, $obj);
 
         return $this->getRedirectSuccessDestroy($request, function($r)
         {
