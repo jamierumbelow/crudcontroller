@@ -59,7 +59,9 @@ abstract class CrudController extends Controller
 
         parent::__construct();
 
-        $this->currentAction = explode('@', $request->route()->getActionName())[1];
+        if ( $request->route() ) {
+            $this->currentAction = explode('@', $request->route()->getActionName())[1];
+        }
     }
 
     /**
