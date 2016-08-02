@@ -44,6 +44,13 @@ abstract class CrudController extends Controller
     protected $currentAction;
 
     /**
+     * Set just before the view is rendered.
+     *
+     * @var string
+     **/
+    protected $currentViewName;
+
+    /**
      * undocumented class variable
      *
      * @var string

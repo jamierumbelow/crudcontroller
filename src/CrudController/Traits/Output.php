@@ -61,6 +61,20 @@ trait Output
     }
 
     /**
+     * Given the view name and data, get the view instance
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param string $viewName
+     * @param array|null $data
+     * @return \Illuminate\View\View
+     **/
+    protected function getView(Request $request, $viewName, array $data = null)
+    {
+        return view($viewName)
+            ->with($data ?: []);
+    }
+
+    /**
      * Load a view
      *
      * @param \Illuminate\Http\Request $request The request object
@@ -78,8 +92,9 @@ trait Output
 
             $viewName = $this->getViewBase($klass) . '.' . $this->currentAction;
 
-            $response = view($viewName)
-                ->with($data ?: array());
+            $this->currentViewName = $viewName;
+
+            $response = $this->getView($request, $viewName, $data);
         }
 
         // Allow for returning instances of Redirect or Response.
