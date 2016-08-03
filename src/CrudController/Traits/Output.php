@@ -92,8 +92,6 @@ trait Output
 
             $viewName = $this->getViewBase($klass) . '.' . $this->currentAction;
 
-            $this->currentViewName = $viewName;
-
             $response = $this->getView($request, $viewName, $data);
         }
 

@@ -60,7 +60,6 @@ trait Callbacks
      * Process callbacks for $eventName
      *
      * @param string $eventName
-     * @return void
      **/
     protected function callback($eventName)
     {
@@ -68,11 +67,14 @@ trait Callbacks
 
         $parameters = array_slice(func_get_args(), 1);
         $callbacks = $this->registeredCallbacks[$eventName];
+        $response = null;
 
         foreach ( $callbacks as $callback )
         {
-            call_user_func_array( is_callable($callback) ? $callback : [ $this, $callback ], $parameters);
+            $response = call_user_func_array( is_callable($callback) ? $callback : [ $this, $callback ], $parameters);
         }
+
+        return $response;
     }
 
     /**
@@ -90,5 +92,16 @@ trait Callbacks
         else {
             $this->registeredCallbacks[$eventName] = [ $callback ];
         }
+    }
+
+    /**
+     * Does a callback exist for this event?
+     *
+     * @param string $eventName
+     * @return boolean
+     **/
+    protected function hasCallback($eventName)
+    {
+        return isset($this->registeredCallbacks[$eventName]);
     }
 }

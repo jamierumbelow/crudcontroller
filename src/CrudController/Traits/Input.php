@@ -105,6 +105,11 @@ trait Input
                 }
             }
         }
+
+        // Time for a callback
+        if ( $this->hasCallback('input') ) {
+            $data = $this->callback('input', $data);
+        }
         
         // ...and return the data.
         return $data;
