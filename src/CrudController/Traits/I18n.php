@@ -33,7 +33,9 @@ trait I18n
     protected static function bootI18n($instance)
     {
         if ( is_subclass_of($instance, Formerable::class) )
+        {
             Former::setOption('translate_from', $instance->getLanguageBase());
+        }
     }
 
     /**
