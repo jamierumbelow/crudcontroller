@@ -56,6 +56,17 @@ trait Input
     }
 
     /**
+     * Given the request object, return the ID to pass to the fetcher
+     *
+     * @param \Illuminate\Http\Request $request The request object
+     * @return array[string]
+     */
+    protected function getId(Request $request)
+    {
+        return $request->route($this->getRouteBase());
+    }
+
+    /**
      * Get the apropriate input data from the request.
      *
      * @param \Illuminate\Http\Request $request The request object
