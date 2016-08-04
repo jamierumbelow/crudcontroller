@@ -109,7 +109,7 @@ trait PublicActions
     {
         $this->callback('beforeAll', $request);
 
-        $id = $request->route($this->getCollectionName());
+        $id = $request->route($this->getRouteBase());
         $klass = $this->getClass();
         $obj = $this->fetcherShow($request, $klass, $id);
 
@@ -128,7 +128,7 @@ trait PublicActions
     {
         $this->callback('beforeAll', $request);
 
-        $id = $request->route($this->getCollectionName());
+        $id = $request->route($this->getRouteBase());
         $klass = $this->getClass();
         $obj = $this->fetcherEdit($request, $klass, $id);
 
@@ -153,7 +153,7 @@ trait PublicActions
     {
         $this->callback('beforeAll', $request);
 
-        $id = $request->route($this->getCollectionName());
+        $id = $request->route($this->getRouteBase());
         $klass = $this->getClass();
 
         $obj = $this->fetcherUpdate($request, $klass, $id);
@@ -208,7 +208,7 @@ trait PublicActions
     {
         $this->callback('beforeAll', $request);
 
-        $id = $request->route($this->getCollectionName());
+        $id = $request->route($this->getRouteBase());
         $klass = $this->getClass();
         $obj = $this->fetcherConfirmDestroy($request, $klass, $id);
 
@@ -227,7 +227,7 @@ trait PublicActions
     {
         $this->beforeAll($request);
 
-        $id = $request->route($this->getCollectionName());
+        $id = $request->route($this->getRouteBase());
         $klass = $this->getClass();
         $obj = $this->fetcherDestroy($request, $klass, $id);
         
