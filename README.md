@@ -1,5 +1,6 @@
-# CrudController
+# DEPRECATED: CrudController
 
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
 [![Latest Version](https://img.shields.io/github/release/jamierumbelow/crudcontroller.svg)](https://github.com/jamierumbelow/crudcontroller/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE.md)
 [![Build Status](https://img.shields.io/scrutinizer/build/g/jamierumbelow/crudcontroller.svg)](https://scrutinizer-ci.com/g/jamierumbelow/crudcontroller/build-status/master)
